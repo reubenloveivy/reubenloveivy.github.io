@@ -1,0 +1,2095 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>Reuben & Ivy</title>
+
+    <script>
+      if (sessionStorage.getItem("authenticated") !== "true") {
+        // Redirect to login page if not
+        window.location.href = "login.html";
+      }
+    </script>
+
+    <style>
+      @charset "UTF-8";
+      @import url(https://fonts.googleapis.com/css?family=Fira+Sans:200,400,500);
+      * {
+        border: 0;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        height: 100%;
+      }
+
+      body {
+        height: inherit;
+        display: flex;
+        flex-direction: column;
+        font-family: "Fira Sans", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #000000;
+      }
+
+      a {
+        color: #50585f;
+        text-decoration: none;
+      }
+      a:hover {
+        color: #383e44;
+      }
+
+      div.container {
+        display: flex;
+        flex: auto;
+        flex-direction: column;
+        max-height: 100%;
+      }
+
+      div.header {
+        height: auto;
+        text-align: center;
+        background: #000000;
+        color: ghostwhite;
+        padding: 2.3rem 1rem 2.3rem 1rem;
+        position: relative;
+      }
+      div.header:after {
+        content: "";
+        position: absolute;
+        bottom: -5rem;
+        left: 0rem;
+        height: 5.1rem;
+        display: block;
+        width: 100%;
+        z-index: 300;
+        background: -moz-linear-gradient(
+          top,
+          white 20%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        /* FF3.6-15 */
+        background: -webkit-linear-gradient(
+          top,
+          white 20%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(
+          to bottom,
+          white 20%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#ffffff", endColorstr="#00ffffff",GradientType=0 );
+        /* IE6-9 */
+      }
+      div.header h1 {
+        margin-top: 0.8rem;
+        margin-bottom: 0.5rem;
+        font-weight: 200;
+        font-size: 1.6em;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+      }
+      @media (min-width: 62em) {
+        div.header h1 {
+          font-size: 1.9em;
+          letter-spacing: 0.2rem;
+        }
+      }
+      div.header h2 {
+        font-size: 1.1em;
+        font-weight: 400;
+        color: #000000;
+        max-width: 30rem;
+        margin: auto;
+      }
+
+      div.item {
+        display: flex;
+        flex: auto;
+        overflow-y: auto;
+        padding: 0rem 1rem 0rem 1rem;
+      }
+
+      #timeline {
+        position: relative;
+        display: table;
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5rem;
+      }
+      #timeline div:after {
+        content: "";
+        width: 2px;
+        position: absolute;
+        top: 0.5rem;
+        bottom: 0rem;
+        left: 60px;
+        z-index: 1;
+        background: #000000;
+      }
+      #timeline h3 {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 5rem;
+        color: #000000;
+        margin: 0;
+        font-size: 1em;
+        font-weight: 700;
+        font-style: normal;
+      }
+      @media (min-width: 62em) {
+        #timeline h3 {
+          font-size: 1.1em;
+        }
+      }
+      #timeline section.year {
+        position: relative;
+      }
+      #timeline section.year:first-child section {
+        margin-top: -1.3em;
+        padding-bottom: 0px;
+      }
+      #timeline section.year section {
+        position: relative;
+        padding-bottom: 1.25em;
+        margin-bottom: 2.2em;
+      }
+      #timeline section.year section h4 {
+        position: absolute;
+        bottom: 0;
+        font-size: 0.9em;
+        font-weight: 400;
+        line-height: 1.2em;
+        margin: 0;
+        padding: 0 0 0 89px;
+        color: #000000;
+      }
+      @media (min-width: 62em) {
+        #timeline section.year section h4 {
+          font-size: 1em;
+        }
+      }
+      #timeline section.year section ul {
+        list-style-type: none;
+        padding: 0 0 0 75px;
+        margin: -1.35rem 0 1em;
+        max-width: 32rem;
+        font-size: 1em;
+      }
+      @media (min-width: 62em) {
+        #timeline section.year section ul {
+          font-size: 1.1em;
+          padding: 0 0 0 81px;
+        }
+      }
+      #timeline section.year section ul:last-child {
+        margin-bottom: 0;
+      }
+      #timeline section.year section ul:first-of-type:after {
+        content: "";
+        width: 10px;
+        height: 10px;
+        background: #000000;
+        border: 2px solid #ffffff;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        border-radius: 50%;
+        position: absolute;
+        left: 54px;
+        top: 3px;
+        z-index: 2;
+      }
+      #timeline section.year section ul li {
+        margin-left: 0.5rem;
+      }
+      #timeline section.year section ul li:before {
+        content: "·";
+        margin-left: -0.5rem;
+        padding-right: 0.3rem;
+      }
+      #timeline section.year section ul li:not(:first-child) {
+        margin-top: 0.5rem;
+      }
+      #timeline section.year section ul li span.price {
+        color: mediumturquoise;
+        font-weight: 500;
+      }
+
+      .usd {
+        display: inline;
+      }
+
+      svg {
+        border: 3px solid white;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
+          0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+
+      .graphic_img {
+        max-width: 300px;
+        border: 1px solid #000000;
+        border-radius: 8px;
+        margin-top: 10px;
+      }
+
+      body {
+        background: #ffcc00;
+        font-family: "Comic Neue", serif;
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      #lightbox-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.85);
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      #lightbox-overlay img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+        object-fit: contain;
+        transition: transform 0.3s ease;
+      }
+
+      #lightbox-overlay:hover img {
+        transform: scale(1.02);
+      }
+
+      body.lightbox-open {
+        overflow: hidden;
+      }
+    </style>
+
+    <style>
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.2); /* very transparent */
+        backdrop-filter: blur(4px);
+        display: flex;
+        justify-content: space-between; /* left, center, right */
+        align-items: center;
+        padding: 10px;
+        z-index: 10000;
+        font-weight: bold;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .bottom-nav a {
+        color: white;
+        opacity: 0.6;
+        transition: opacity 0.3s ease;
+        text-decoration: none;
+      }
+
+      .bottom-nav a:hover {
+        opacity: 1;
+      }
+
+      .bottom-nav .center {
+        cursor: pointer;
+      }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <script>
+      window.console = window.console || function (t) {};
+    </script>
+  </head>
+
+  <body translate="no">
+    <div class="container">
+      <div class="item">
+        <div id="timeline">
+          <div>
+            <section class="year">
+              <h3>28 <br />JUN<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Sushi Tei @ Punggol Coast Mall<br /><img
+                      class="graphic_img"
+                      src="moments/28_jun_2025_1.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Punggol Waterway Park<br /><img
+                      class="graphic_img"
+                      src="moments/28_jun_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    探鱼烤鱼 - TANYU @ Punggol Waterway Point<br /><img
+                      class="graphic_img"
+                      src="moments/28_jun_2025_3.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>22 <br />JUN<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Food Republic @ Suntec City<br /><img
+                      class="graphic_img"
+                      src="moments/22_jun_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Flipper's @ Bugis Junction<br /><img
+                      class="graphic_img"
+                      src="moments/22_jun_2025_2.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    烧鸭烧肉叉烧饭 @ Rasapura Masters Marina Bay Sands<br /><img
+                      class="graphic_img"
+                      src="moments/22_jun_2025_3.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    NDP 2025 Fireworks Rehearsal @ Marina Bay Sands<br /><img
+                      class="graphic_img"
+                      src="moments/22_jun_2025_4.jpeg"
+                      alt="Graphic"
+                    />
+                    <br /><img
+                      class="graphic_img"
+                      src="moments/22_jun_2025_5.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Nakoko @ Lau Pa Sat<br /><img
+                      class="graphic_img"
+                      src="moments/22_jun_2025_6.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>14 <br />JUN<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Fruit Tea & Soufflé Pancakes @ Hoshino Coffee @ VivoCity<br /><img
+                      class="graphic_img"
+                      src="moments/14_jun_2025_1.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Prive @ Keppel Bay<br /><img
+                      class="graphic_img"
+                      src="moments/14_jun_2025_2.jpeg"
+                      alt="Graphic"
+                    />
+                    <br /><img
+                      class="graphic_img"
+                      src="moments/14_jun_2025_3.jpg"
+                      alt="Graphic"
+                    />
+                    <br /><img
+                      class="graphic_img"
+                      src="moments/14_jun_2025_4.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>7 <br />JUN<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Hom Aroy Thai Food @ Coronation Plaza<br /><img
+                      class="graphic_img"
+                      src="moments/7_jun_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    The Book Cafe @ Seng Kee Building<br /><img
+                      class="graphic_img"
+                      src="moments/7_jun_2025_2.jpeg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/7_jun_2025_3.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    issho izakaya @ Great World<br /><img
+                      class="graphic_img"
+                      src="moments/7_jun_2025_4.jpg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/7_jun_2025_5.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>6 <br />JUN<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Han's Cafe @ Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/6_jun_2025_1.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Green Tea & Vanilla Ice Cream @ Fiordilatte Senja Heights<br /><img
+                      class="graphic_img"
+                      src="moments/14_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>5 <br />JUN<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    我们山顶上见❤️<br /><img
+                      class="graphic_img"
+                      src="moments/5_jun_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>2 <br />JUN<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Delibowl Rice Kitchen @ Paya Lebar Square<br /><img
+                      class="graphic_img"
+                      src="moments/1_jun_2025_1.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    IMAX Movie: Mission Impossible - The Final Reckoning @ Shaw
+                    Theatres Paya Lebar Quarter<br /><img
+                      class="graphic_img"
+                      src="moments/1_jun_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Champion Bolo Bun @ Tanjong Pagar<br /><img
+                      class="graphic_img"
+                      src="moments/1_jun_2025_3.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    EPIKebabs @ Wilkie Edge<br /><img
+                      class="graphic_img"
+                      src="moments/1_jun_2025_4.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    US-Drama: The Office Season 1 | Started on 31 MAY 2025<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/1_jun_2025_5.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>30 <br />MAY<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Fishball Noodle @ Eat. Rallway Mall<br /><img
+                      class="graphic_img"
+                      src="moments/30_may_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Fresh Mangoes @ Sheng Siong Supermarket<br /><img
+                      class="graphic_img"
+                      src="moments/30_may_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>25 <br />MAY<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    The Phantom of the Opera Musical @ Sands Theatre<br /><img
+                      class="graphic_img"
+                      src="moments/25_may_2025_2.jpg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/25_may_2025_5.jpg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/25_may_2025_6.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Movie: Lilo & Stitch @ Golden Village Suntec City<br /><img
+                      class="graphic_img"
+                      src="moments/25_may_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Food Republic @ Suntec City<br /><img
+                      class="graphic_img"
+                      src="moments/29_mar_2025_4.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Gardens by the Bay Light Show: Lilo & Stitch Edition @
+                    Gardens by the Bay<br />
+                    <video width="640" height="360" controls>
+                      <source
+                        src="moments/25_may_2025_0.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>20 <br />MAY<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    520<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/20_may_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    ABC Pork Rib Soup & Old Cucumber Pork Rib Soup @ Kopitiam
+                    Hillion<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/19_apr_2025_0.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Green Apple Juice @ SF Fruits Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/24_feb_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>18 <br />MAY<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    J-Drama: Hanzawa Naoki (半沢直樹) Season 2 | Started on 13
+                    APR 2025<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/18_may_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>14 <br />MAY<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Alexander Malofeev Piano Recital Singapore 2025 @ Victoria
+                    Concert<br /><img
+                      class="graphic_img"
+                      src="moments/14_may_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Hor fun @ 163 Kimly Zi Char 金味海鲜<br /><img
+                      class="graphic_img"
+                      src="moments/14_may_2025_2.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>10 <br />MAY<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Singapore Symphony Orchestra Gold Friends Season Pass<br /><img
+                      class="graphic_img"
+                      src="moments/10_may_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Picnic @ East Coast Park<br /><img
+                      class="graphic_img"
+                      src="moments/10_may_2025_2.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Kopitiam Food Hall @ Parkway Parade<br /><img
+                      class="graphic_img"
+                      src="moments/10_may_2025_3.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>9 <br />MAY<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Boon Tong Kee @ Cheong Chin Nam Rd<br /><img
+                      class="graphic_img"
+                      src="moments/9_may_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Singapore Fruit Tea & Summer Peach Pomelo LiHO TEA @
+                    Greenridge Shopping Centre<br /><img
+                      class="graphic_img"
+                      src="moments/9_may_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>8 <br />MAY<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Ivy's Birthday Gift<br /><img
+                      class="graphic_img"
+                      src="moments/8_may_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Green Apple Juice @ SF Fruits Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/24_feb_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>7 <br />MAY<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Ivy's Birthday Celebration @ Mandai Singapore Zoo<br />
+                    <video width="640" height="360" controls>
+                      <source src="moments/7_may_2025_4.mp4" type="video/mp4" />
+                      Your browser does not support the video tag.</video
+                    ><br />
+                    <video width="640" height="360" controls>
+                      <source src="moments/7_may_2025_5.mp4" type="video/mp4" />
+                      Your browser does not support the video tag.</video
+                    ><br /><img
+                      class="graphic_img"
+                      src="moments/7_may_2025_1.jpeg"
+                      alt="Graphic"
+                    />
+                    <br /><img
+                      class="graphic_img"
+                      src="moments/7_may_2025_2.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Haidilao Hot Pot @ Northpoint City<br /><img
+                      class="graphic_img"
+                      src="moments/7_may_2025_3.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>4 <br />MAY<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Bangkok Jam @ Great World<br /><img
+                      class="graphic_img"
+                      src="moments/4_may_2025_7.jpg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/4_may_2025_1.jpeg"
+                      alt="Graphic"
+                    />
+                    <br /><img
+                      class="graphic_img"
+                      src="moments/4_may_2025_2.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Movie: Thunderbolts @ GV Great World<br /><img
+                      class="graphic_img"
+                      src="moments/4_may_2025_3.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Typhoon Cafe @ Plaza Singapura<br /><img
+                      class="graphic_img"
+                      src="moments/4_may_2025_8.jpg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/4_may_2025_4.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Daiso @ Plaza Singapura<br /><img
+                      class="graphic_img"
+                      src="moments/4_may_2025_5.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Nanjing Impressions 南京大牌档 @ Plaza Singapura<br /><img
+                      class="graphic_img"
+                      src="moments/4_may_2025_6.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>2 <br />MAY<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    O.BBa Jjajang & BBQ @ Cheong Chin Nam Rd<br /><img
+                      class="graphic_img"
+                      src="moments/2_may_2025_4.jpg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/2_may_2025_1.jpeg"
+                      alt="Graphic"
+                    />
+                    <br /><img
+                      class="graphic_img"
+                      src="moments/2_may_2025_2.jpeg"
+                      alt="Graphic"
+                    />
+                    <br /><img
+                      class="graphic_img"
+                      src="moments/2_may_2025_3.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>30 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Astons @ Bukit Panjang Plaza<br /><img
+                      class="graphic_img"
+                      src="moments/8_feb_2025_3.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Osmanthus Oolong Tea + Mango (0% No Sugar + Ice + Bubble),
+                    Bubble Milk Tea (50% Light + Normal Ice) & Fruit Tea (0% No
+                    Sugar + Normal Ice) CHICHA San Chen 吃茶三千 @ Bukit Panjang
+                    Plaza<br /><img
+                      class="graphic_img"
+                      src="moments/30_apr_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>26 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    TANG² Malatang @ Parklane<br /><img
+                      class="graphic_img"
+                      src="moments/26_apr_2025_1.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    PetExpo® Singapore 2025 @ Singapore EXPO<br /><img
+                      class="graphic_img"
+                      src="moments/26_apr_2025_2.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Tulipmania Flower Dome @ Gardens By The Bay<br /><img
+                      class="graphic_img"
+                      src="moments/26_apr_2025_3.jpeg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/26_apr_2025_4.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Hopscotch @ Gardens By The Bay<br /><img
+                      class="graphic_img"
+                      src="moments/26_apr_2025_5.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Nakoko @ Lau Pa Sat<br /><img
+                      class="graphic_img"
+                      src="moments/26_apr_2025_6.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Kaya, Sesame & Red Bean Munchi Pancakes @ Lau Pa Sat<br /><img
+                      class="graphic_img"
+                      src="moments/25_jan_2025_3.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>25 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Joo Seng Teochew Porridge @ Cheong Chin Nam Rd<br /><img
+                      class="graphic_img"
+                      src="moments/25_apr_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    CS Fresh @ HillV2<br /><img
+                      class="graphic_img"
+                      src="moments/25_apr_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Supper Dine-In @ Mcdonalds Senja Heights<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/6_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>21 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Salted Caramel & Bacio Ice Cream @ Fiordilatte Senja
+                    Heights<br /><img
+                      class="graphic_img"
+                      src="moments/14_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    The Coffee Bean & Tea Leaf @ Senja Heights<br /><img
+                      class="graphic_img"
+                      src="moments/8_mar_2025_5.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Grab Gift Card<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/21_apr_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>19 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Roasted Duck Pizza & Kimchi Chicken @ Timbre+ One North<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/19_apr_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Ice Kacang @ Kopitiam JEM<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/19_apr_2025_0.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Chinese Garden<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/19_apr_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>18 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Sushiro @ Lot One<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/18_apr_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>17 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Greendot @ Bukit Panjang Plaza<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/17_apr_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Strawberry & Bacio Ice Cream @ Fiordilatte Senja Heights<br /><img
+                      class="graphic_img"
+                      src="moments/14_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>15 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Da Shi Jia Big Prawn Mee<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/15_apr_2025_0.jpg"
+                      alt="Graphic"
+                    />
+                    <br />
+                    <br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/15_apr_2025_1.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Changemakers Conversations - Security in the Digital Age:
+                    Building Trusted Ecosystems for Urban Innovation @ SMU<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/15_apr_2025_2.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Teo Heng KTV Studio @ Centrepoint<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/15_apr_2025_3.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Decathlon @ Centrepoint<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/15_apr_2025_4.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    PS.Cafe @ East Coast Park<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/15_apr_2025_5.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>13 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    J-Drama: Hanzawa Naoki (半沢直樹) Season 1 | Started on 31
+                    MAR 2025<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/13_apr_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>12 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    "When你创业的时候, I can help translate to do Joint Venture
+                    in China"<br /><img
+                      style="max-width: 100%"
+                      class="graphic_img"
+                      src="moments/12_apr_2025_0.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Baia @ Esplanade<br /><img
+                      class="graphic_img"
+                      src="moments/12_apr_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Behzod Abduraimov and Hans Graf - Rachmaninoff and Ravel @
+                    Esplanade<br /><img
+                      class="graphic_img"
+                      src="moments/12_apr_2025_3.jpg"
+                      alt="Graphic"
+                    />
+                    <br /><img
+                      class="graphic_img"
+                      src="moments/12_apr_2025_4.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Green Apple Juice @ SF Fruits Fullerton Waterboat House:
+                    Farm Mart<br /><img
+                      class="graphic_img"
+                      src="moments/24_feb_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>11 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Big Fish Small Fish Cafe @ Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/11_apr_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>10 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Xi Men Jie 西門街 @ Bukit Panjang Plaza<br /><img
+                      class="graphic_img"
+                      src="moments/10_apr_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Hokey Pokey & Coffee Chip Ice Cream @ Fiordilatte Senja
+                    Heights<br /><img
+                      class="graphic_img"
+                      src="moments/14_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>05 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Ha-Jun Korean @ Fusionopolis<br /><img
+                      class="graphic_img"
+                      src="moments/5_apr_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Swensen's @ Parkway Parade<br /><img
+                      class="graphic_img"
+                      src="moments/5_apr_2025_2.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Rainbow + Picnic @ East Coast Park<br /><img
+                      class="graphic_img"
+                      src="moments/5_apr_2025_5.jpg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/5_apr_2025_3.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Xiang Xiang Hunan Cuisine @ Parkway Parade<br /><img
+                      class="graphic_img"
+                      src="moments/5_apr_2025_4.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>02 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    From ❤️<br /><img
+                      class="graphic_img"
+                      src="moments/2_apr_2025_1.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Green Apple Juice @ SF Fruits Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/24_feb_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>01 <br />APR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Eat 3 Bowls @ Hillion<br /><img
+                      class="graphic_img"
+                      src="moments/01_apr_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Lavender, Lychee Sorbet & Vanilla Ice Cream @ Fiordilatte
+                    Senja Heights<br /><img
+                      class="graphic_img"
+                      src="moments/14_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>29 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Henderson Waves<br /><img
+                      class="graphic_img"
+                      src="moments/29_mar_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Arbora @ Mount Faber Peak<br /><img
+                      class="graphic_img"
+                      src="moments/29_mar_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Poulet @ VivoCity<br /><img
+                      class="graphic_img"
+                      src="moments/29_mar_2025_3.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Food Republic @ 313 Somerset<br /><img
+                      class="graphic_img"
+                      src="moments/29_mar_2025_4.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Movie: The Solitary Gourmet @ The Projector Cineleisure<br /><img
+                      class="graphic_img"
+                      src="moments/29_mar_2025_5.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>28 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Xin Yuan Ji Fish Soup 新源记 @ Purvis Street<br /><img
+                      class="graphic_img"
+                      src="moments/28_mar_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    dal.komm COFFEE @ Marina Square<br /><img
+                      class="graphic_img"
+                      src="moments/28_mar_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>27 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    A-One Claypot House @ Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/27_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>22 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Bai Wei Mini Bowl @ SingPost Centre<br /><img
+                      class="graphic_img"
+                      src="moments/22_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Movie: Captain America: Brave New World @ Shaw Theatres Paya
+                    Lebar Quarter<br /><img
+                      class="graphic_img"
+                      src="moments/22_mar_2025_2.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Matcha & Hojicha Latte @ Kurasu Singapore<br /><img
+                      class="graphic_img"
+                      src="moments/22_mar_2025_3.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    UNIQLO @ Bugis+<br /><img
+                      class="graphic_img"
+                      src="moments/22_mar_2025_4.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Movie: Mickey 17 @ Golden Village Bugis+<br /><img
+                      class="graphic_img"
+                      src="moments/22_mar_2025_5.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    The Ramen House @ 6 Short St<br /><img
+                      class="graphic_img"
+                      src="moments/22_mar_2025_6.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Stracciatella & After 8 Ice Cream @ Fiordilatte Senja
+                    Heights<br /><img
+                      class="graphic_img"
+                      src="moments/14_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>21 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    POCHA! Korean Street Dining @ Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/21_mar_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Nutella & Earl Grey Ice Cream @ Fiordilatte Senja Heights<br /><img
+                      class="graphic_img"
+                      src="moments/14_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>17 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    La La Land - Live in Concert @ Esplanade<br /><img
+                      class="graphic_img"
+                      src="moments/20_mar_2025_5.jpg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/20_mar_2025_6.jpg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/20_mar_2025_7.jpg"
+                      alt="Graphic"
+                    /><br /><img
+                      class="graphic_img"
+                      src="moments/20_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                    <img
+                      class="graphic_img"
+                      src="moments/20_mar_2025_2.jpeg"
+                      alt="Graphic"
+                    />
+                    <img
+                      class="graphic_img"
+                      src="moments/20_mar_2025_3.jpeg"
+                      alt="Graphic"
+                    />
+                    <img
+                      class="graphic_img"
+                      src="moments/20_mar_2025_4.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    The Coffee Bean & Tea Leaf @ Senja Heights<br /><img
+                      class="graphic_img"
+                      src="moments/8_mar_2025_5.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>15 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Harry Potter Visions of Magic @ RWS Sentosa<br /><img
+                      class="graphic_img"
+                      src="moments/15_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                    <img
+                      class="graphic_img"
+                      src="moments/15_mar_2025_5.jpg"
+                      alt="Graphic"
+                    />
+                    <img
+                      class="graphic_img"
+                      src="moments/15_mar_2025_4.jpg"
+                      alt="Graphic"
+                    />
+                    <img
+                      class="graphic_img"
+                      src="moments/15_mar_2025_3.jpg"
+                      alt="Graphic"
+                    />
+                    <img
+                      class="graphic_img"
+                      src="moments/15_mar_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Cycling from ECP to <s>Marina Bay Sands</s> Marina
+                    Barrage<br /><img
+                      class="graphic_img"
+                      src="moments/15_mar_2025_6.jpg"
+                      alt="Graphic"
+                    />
+                    <div style="display: flex">
+                      <img
+                        class="graphic_img"
+                        src="moments/ivy_cartoon.jpg"
+                        alt="ivy"
+                      />
+                      <img
+                        class="graphic_img"
+                        src="moments/15_mar_2025_7.png"
+                        alt="Graphic"
+                        style="margin-left: 10px"
+                      />
+                      <img
+                        class="graphic_img"
+                        src="moments/reuben_cartoon.jpg"
+                        alt="reuben"
+                        style="margin-left: 10px"
+                      />
+                    </div>
+                  </li>
+                  <li>
+                    鱼鳔猪肚鸡汤 @ Rasapura Masters Marina Bay Sands<br /><img
+                      class="graphic_img"
+                      src="moments/15_mar_2025_8.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>13 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Collins @ Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/18_feb_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Green Tea & Soursop Sorbet Ice Cream @ Fiordilatte Senja
+                    Heights<br /><img
+                      class="graphic_img"
+                      src="moments/14_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>9 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Astons Specialities @ The Central<br /><img
+                      class="graphic_img"
+                      src="moments/8_feb_2025_3.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Takeshi Oi Piano Recital Singapore 2025 @ Victoria Concert
+                    Hall<br /><img
+                      class="graphic_img"
+                      src="moments/9_mar_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>8 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Song Fa Bak Kut Teh @ JEM<br /><img
+                      class="graphic_img"
+                      src="moments/8_mar_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Movie: Ne Zha 2 @ Cathay Cineplex JEM<br /><img
+                      class="graphic_img"
+                      src="moments/8_mar_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Sushi Tei @ JEM<br /><img
+                      class="graphic_img"
+                      src="moments/8_mar_2025_3.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Lifestylemart @ THE CHEVRONS<br /><img
+                      class="graphic_img"
+                      src="moments/8_mar_2025_4.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    The Coffee Bean & Tea Leaf @ Senja Heights<br /><img
+                      class="graphic_img"
+                      src="moments/8_mar_2025_5.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>6 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Green Apple Juice @ SF Fruits Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/24_feb_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Supper Takeaway @ Mcdonalds Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/6_mar_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>3 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Green Apple Juice @ SF Fruits Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/24_feb_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>1 <br />MAR<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Congee @ Mui Kee Shaw Centre<br /><img
+                      class="graphic_img"
+                      src="moments/1_mar_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Movie: The Brutalist @ Shaw Lido<br /><img
+                      class="graphic_img"
+                      src="moments/1_mar_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Seletar Aerospace Park<br /><img
+                      class="graphic_img"
+                      src="moments/1_mar_2025_3.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Tun Xiang Hokkien Delights @ Northpoint City<br /><img
+                      class="graphic_img"
+                      src="moments/1_mar_2025_4.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>27 <br />FEB<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Green Apple Juice @ SF Fruits Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/24_feb_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>24 <br />FEB<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Green Apple Juice @ SF Fruits Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/24_feb_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Home-Made Green Apple Juice<br /><img
+                      class="graphic_img"
+                      src="moments/24_feb_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>22 <br />FEB<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Marché @ 313 Somerset<br /><img
+                      class="graphic_img"
+                      src="moments/22_feb_2025_1.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Movie: The Real Pain @ The Projector Cineleisure<br /><img
+                      class="graphic_img"
+                      src="moments/22_feb_2025_2.jpeg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Ah Chew Dessert @ Cineleisure<br /><img
+                      class="graphic_img"
+                      src="moments/22_feb_2025_3.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Heniu Teppanyaki @ Wisma Atria<br /><img
+                      class="graphic_img"
+                      src="moments/22_feb_2025_4.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>18 <br />FEB<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Collins @ Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/18_feb_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    ❤️❤️❤️❤️❤️❤️❤️👩🏻‍❤️‍👨🏻❤️❤️❤️❤️❤️❤️❤️<br /><img
+                      class="graphic_img"
+                      src="moments/18_feb_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>15 <br />FEB<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    White Restaurant @ Vivo City<br /><img
+                      class="graphic_img"
+                      src="moments/15_feb_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Timezone @ Vivo City<br /><img
+                      class="graphic_img"
+                      src="moments/15_feb_2025_2.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Library @ Vivo City<br /><img
+                      class="graphic_img"
+                      src="moments/15_feb_2025_3.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Prive @ Keppel Bay<br /><img
+                      class="graphic_img"
+                      src="moments/15_feb_2025_4.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>14 <br />FEB<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    La Pizzaiola @ Bukit Timah<br /><img
+                      class="graphic_img"
+                      src="moments/14_feb_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Botanic Garden<br /><img
+                      class="graphic_img"
+                      src="moments/14_feb_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Rallway Mall Trail<br /><img
+                      class="graphic_img"
+                      src="moments/14_feb_2025_3.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Yi Qian Hong Kong Cafe<br /><img
+                      class="graphic_img"
+                      src="moments/14_feb_2025_4.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    ❤️❤️❤️❤️❤️❤️❤️👩🏻‍❤️‍👨🏻❤️❤️❤️❤️❤️❤️❤️<br /><img
+                      class="graphic_img"
+                      src="moments/14_feb_2025_5.jpg"
+                      alt="Graphic"
+                    />
+                    <br />
+                    <div style="display: flex">
+                      <img
+                        class="graphic_img"
+                        src="moments/ivy_cartoon.jpg"
+                        alt="ivy"
+                      />
+                      <img
+                        class="graphic_img"
+                        src="moments/reuben_cartoon.jpg"
+                        alt="reuben"
+                        style="margin-left: 10px"
+                      />
+                    </div>
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>08 <br />FEB<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Ajisen Ramen @ Bugis<br /><img
+                      class="graphic_img"
+                      src="moments/8_feb_2025_0.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Van Gogh the Immersive Experience @ Parkview Square<br /><img
+                      class="graphic_img"
+                      src="moments/8_feb_2025_1.jpg"
+                      alt="Graphic"
+                    /><img
+                      class="graphic_img"
+                      src="moments/8_feb_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Astons @ Bugis+<br /><img
+                      class="graphic_img"
+                      src="moments/8_feb_2025_3.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>07 <br />FEB<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Saizeriya @ Hillion Mall<br /><img
+                      class="graphic_img"
+                      src="moments/7_feb_2025.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>01 <br />FEB<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Cycling from ECP to T2<br /><img
+                      class="graphic_img"
+                      src="moments/1_feb_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Tai Er @ Jewel<br /><img
+                      class="graphic_img"
+                      src="moments/1_feb_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>25 <br />JAN<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    Flower Dome @ Gardens By The Bay<br /><img
+                      class="graphic_img"
+                      src="moments/25_jan_2025_1.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Din Tai Fung @ MBS<br /><img
+                      class="graphic_img"
+                      src="moments/25_jan_2025_2.jpg"
+                      alt="Graphic"
+                    />
+                  </li>
+                  <li>
+                    Munchi Pancakes @ Lau Pa Sat<br /><img
+                      class="graphic_img"
+                      src="moments/25_jan_2025_3.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>18 <br />JAN<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    First outing @ Bukit Panjang Plaza Pizza Hut<br /><img
+                      class="graphic_img"
+                      src="moments/18_jan_2025.png"
+                      alt="Graphic"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+            <section class="year">
+              <h3>07 <br />JAN<br />2025</h3>
+              <section>
+                <ul>
+                  <li>
+                    First conversation after matching on CMB<br />
+                    <img
+                      class="graphic_img"
+                      src="moments/07_jan_2025.png"
+                      alt="Graphic"
+                      data-full="moments/07_jan_2025.png"
+                    />
+                  </li>
+                </ul>
+              </section>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <a href="timeline-2025-h2.html" class="left" style="padding-left: 10px"
+        >Previous</a
+      >
+      <a href="#" class="right" style="padding-right: 10px"></a>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Create the lightbox overlay
+        const lightbox = document.createElement("div");
+        lightbox.id = "lightbox-overlay";
+        lightbox.innerHTML = "<img>";
+        document.body.appendChild(lightbox);
+
+        const lightboxImg = lightbox.querySelector("img");
+
+        // Attach click listener to all images on the page
+        document.querySelectorAll("img").forEach((img) => {
+          img.style.cursor = "zoom-in"; // Optional, gives a visual cue
+
+          img.addEventListener("click", () => {
+            const fullSrc = img.getAttribute("data-full") || img.src;
+            lightboxImg.src = fullSrc;
+            lightbox.style.display = "flex";
+            document.body.classList.add("lightbox-open");
+          });
+        });
+
+        // Close lightbox on click anywhere
+        lightbox.addEventListener("click", () => {
+          lightbox.style.display = "none";
+          lightboxImg.src = "";
+          document.body.classList.remove("lightbox-open");
+        });
+      });
+    </script>
+  </body>
+</html>

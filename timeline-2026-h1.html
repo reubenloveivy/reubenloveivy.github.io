@@ -1,0 +1,1030 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <title>Reuben & Ivy</title>
+
+  <script>
+    if (sessionStorage.getItem("authenticated") !== "true") {
+      // Redirect to login page if not
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <style>
+    @charset "UTF-8";
+    @import url(https://fonts.googleapis.com/css?family=Fira+Sans:200,400,500);
+
+    * {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      height: inherit;
+      display: flex;
+      flex-direction: column;
+      font-family: "Fira Sans", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: #000000;
+    }
+
+    a {
+      color: #50585f;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #383e44;
+    }
+
+    div.container {
+      display: flex;
+      flex: auto;
+      flex-direction: column;
+      max-height: 100%;
+    }
+
+    div.header {
+      height: auto;
+      text-align: center;
+      background: #000000;
+      color: ghostwhite;
+      padding: 2.3rem 1rem 2.3rem 1rem;
+      position: relative;
+    }
+
+    div.header:after {
+      content: "";
+      position: absolute;
+      bottom: -5rem;
+      left: 0rem;
+      height: 5.1rem;
+      display: block;
+      width: 100%;
+      z-index: 300;
+      background: -moz-linear-gradient(top,
+          white 20%,
+          rgba(255, 255, 255, 0) 100%);
+      /* FF3.6-15 */
+      background: -webkit-linear-gradient(top,
+          white 20%,
+          rgba(255, 255, 255, 0) 100%);
+      /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to bottom,
+          white 20%,
+          rgba(255, 255, 255, 0) 100%);
+      /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#00ffffff", GradientType=0);
+      /* IE6-9 */
+    }
+
+    div.header h1 {
+      margin-top: 0.8rem;
+      margin-bottom: 0.5rem;
+      font-weight: 200;
+      font-size: 1.6em;
+      letter-spacing: 0.1rem;
+      text-transform: uppercase;
+    }
+
+    @media (min-width: 62em) {
+      div.header h1 {
+        font-size: 1.9em;
+        letter-spacing: 0.2rem;
+      }
+    }
+
+    div.header h2 {
+      font-size: 1.1em;
+      font-weight: 400;
+      color: #000000;
+      max-width: 30rem;
+      margin: auto;
+    }
+
+    div.item {
+      display: flex;
+      flex: auto;
+      overflow-y: auto;
+      padding: 0rem 1rem 0rem 1rem;
+    }
+
+    #timeline {
+      position: relative;
+      display: table;
+      height: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 5rem;
+    }
+
+    #timeline div:after {
+      content: "";
+      width: 2px;
+      position: absolute;
+      top: 0.5rem;
+      bottom: 0rem;
+      left: 60px;
+      z-index: 1;
+      background: #000000;
+    }
+
+    #timeline h3 {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 5rem;
+      color: #000000;
+      margin: 0;
+      font-size: 1em;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    @media (min-width: 62em) {
+      #timeline h3 {
+        font-size: 1.1em;
+      }
+    }
+
+    #timeline section.year {
+      position: relative;
+    }
+
+    #timeline section.year:first-child section {
+      margin-top: -1.3em;
+      padding-bottom: 0px;
+    }
+
+    #timeline section.year section {
+      position: relative;
+      padding-bottom: 1.25em;
+      margin-bottom: 2.2em;
+    }
+
+    #timeline section.year section h4 {
+      position: absolute;
+      bottom: 0;
+      font-size: 0.9em;
+      font-weight: 400;
+      line-height: 1.2em;
+      margin: 0;
+      padding: 0 0 0 89px;
+      color: #000000;
+    }
+
+    @media (min-width: 62em) {
+      #timeline section.year section h4 {
+        font-size: 1em;
+      }
+    }
+
+    #timeline section.year section ul {
+      list-style-type: none;
+      padding: 0 0 0 75px;
+      margin: -1.35rem 0 1em;
+      max-width: 32rem;
+      font-size: 1em;
+    }
+
+    @media (min-width: 62em) {
+      #timeline section.year section ul {
+        font-size: 1.1em;
+        padding: 0 0 0 81px;
+      }
+    }
+
+    #timeline section.year section ul:last-child {
+      margin-bottom: 0;
+    }
+
+    #timeline section.year section ul:first-of-type:after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background: #000000;
+      border: 2px solid #ffffff;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      border-radius: 50%;
+      position: absolute;
+      left: 54px;
+      top: 3px;
+      z-index: 2;
+    }
+
+    #timeline section.year section ul li {
+      margin-left: 0.5rem;
+    }
+
+    #timeline section.year section ul li:before {
+      content: "·";
+      margin-left: -0.5rem;
+      padding-right: 0.3rem;
+    }
+
+    #timeline section.year section ul li:not(:first-child) {
+      margin-top: 0.5rem;
+    }
+
+    #timeline section.year section ul li span.price {
+      color: mediumturquoise;
+      font-weight: 500;
+    }
+
+    .usd {
+      display: inline;
+    }
+
+    svg {
+      border: 3px solid white;
+      border-radius: 50%;
+      box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
+        0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .graphic_img {
+      max-width: 300px;
+      border: 1px solid #000000;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    body {
+      background: #ffcc00;
+      font-family: "Comic Neue", serif;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    #lightbox-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #lightbox-overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    #lightbox-overlay:hover img {
+      transform: scale(1.02);
+    }
+
+    body.lightbox-open {
+      overflow: hidden;
+    }
+  </style>
+
+  <style>
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      /* very transparent */
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: space-between;
+      /* left, center, right */
+      align-items: center;
+      padding: 10px;
+      z-index: 10000;
+      font-weight: bold;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .bottom-nav a {
+      color: white;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+      text-decoration: none;
+    }
+
+    .bottom-nav a:hover {
+      opacity: 1;
+    }
+
+    .bottom-nav .center {
+      cursor: pointer;
+    }
+  </style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+  <script>
+    window.console = window.console || function (t) { };
+  </script>
+</head>
+
+<body translate="no">
+  <div class="container">
+    <div class="item">
+      <div id="timeline">
+        <div>
+		<section class="year">
+            <h3>30 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+				  Homemade Breakfast
+				  <br /><img class="graphic_img" src="moments/30_jun_2026_1.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+         </section>
+		<section class="year">
+            <h3>29 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+				  Homemade Breakfast
+				  <br /><img class="graphic_img" src="moments/29_jun_2026_1.jpeg" alt="Graphic" />
+                </li>
+				<li>
+				  Singapore College of Traditional Chinese Medicine
+				  <br /><img class="graphic_img" src="moments/29_jun_2026_3.jpg" alt="Graphic" />	  
+                </li>
+				<li>
+				  Kopitiam Food Hall @ Parkway Parade
+				  <br /><img class="graphic_img" src="moments/29_jun_2026_2.jpg" alt="Graphic" />	  
+                </li>
+              </ul>
+            </section>
+         </section>
+		<section class="year">
+            <h3>28 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+				  Economic Beehoon Breakfast @ Bukit Panjang Hawker Center
+				  <br /><img class="graphic_img" src="moments/28_jun_2026_1.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/28_jun_2026_2.jpeg" alt="Graphic" />
+                </li>
+				<li>
+				  IMAX Movie: Supergirl @ Shaw Lido
+				  <br /><img class="graphic_img" src="moments/28_jun_2026_3.jpeg" alt="Graphic" />	  
+                </li>
+				<li>
+				  The Marmalade Pantry @ ION Orchard
+				  <br /><img class="graphic_img" src="moments/28_jun_2026_4.jpeg" alt="Graphic" />	  
+                </li>
+				<li>
+				  Movie: Toy Story 5 @ Shaw Lido
+				  <br /><img class="graphic_img" src="moments/28_jun_2026_5.jpg" alt="Graphic" />	  
+                </li>
+              </ul>
+            </section>
+         </section>
+		<section class="year">
+            <h3>27 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+				  Heniu Teppanyaki @ Wisma Atria
+				  <br /><img class="graphic_img" src="moments/27_jun_2026_1.jpeg" alt="Graphic" />
+				  
+                </li>
+				<li>
+				  Venchi Gelato @ Takashimaya Ngee Ann City
+				  <br /><img class="graphic_img" src="moments/27_jun_2026_2.jpeg" alt="Graphic" />
+				  
+                </li>
+              </ul>
+            </section>
+         </section>
+		<section class="year">
+            <h3>26 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+				  Astons @ Bukit Panjang Plaza
+				  <br /><img class="graphic_img" src="moments/26_jun_2026_1.jpeg" alt="Graphic" />
+				  
+                </li>
+              </ul>
+            </section>
+         </section>
+		<section class="year">
+            <h3>25 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+				  武侯祠
+				  <br /><img class="graphic_img" src="moments/25_jun_2026_1.jpg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/25_jun_2026_2.jpg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/25_jun_2026_3.jpeg" alt="Graphic" />
+				  
+                </li>
+				<li>
+				人民公园
+				  <br /><img class="graphic_img" src="moments/25_jun_2026_5.jpg" alt="Graphic" />
+				  
+                </li>			 
+				<li>
+				  Dinner @ Chunxi Road  
+				  <br /><img class="graphic_img" src="moments/25_jun_2026_4.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/25_jun_2026_6.jpg" alt="Graphic" />
+				  
+                </li>
+              </ul>
+            </section>
+         </section>
+		<section class="year">
+            <h3>24 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+				  九寨沟
+				  <br /><img class="graphic_img" src="moments/24_jun_2026_8.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/24_jun_2026_9.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/24_jun_2026_10.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/24_jun_2026_1.jpg" alt="Graphic">
+                  <br /><img class="graphic_img" src="moments/24_jun_2026_2.jpg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/24_jun_2026_3.jpg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/24_jun_2026_4.jpg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/24_jun_2026_5.jpg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/24_jun_2026_6.jpg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/24_jun_2026_7.jpg" alt="Graphic" />
+				  
+                </li>
+              </ul>
+            </section>
+         </section>
+		 <section class="year">
+            <h3>23 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+				  Train to 九寨沟
+				  <br /><img class="graphic_img" src="moments/23_jun_2026_1.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/23_jun_2026_2.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/23_jun_2026_3.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/23_jun_2026_4.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+         </section>
+		<section class="year">
+            <h3>22 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+				  成都IFS<br /><img class="graphic_img" src="moments/22_jun_2026_1.jpeg" alt="Graphic">
+                  <br /><img class="graphic_img" src="moments/22_jun_2026_2.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/22_jun_2026_3.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+         </section>
+		 <section class="year">
+            <h3>21 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  青城山<br /><img class="graphic_img" src="moments/21_jun_2026_1.jpeg" alt="Graphic">
+                  <br /><img class="graphic_img" src="moments/21_jun_2026_2.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/21_jun_2026_3.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/21_jun_2026_4.jpeg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/21_jun_2026_5.jpeg" alt="Graphic" />
+                </li>
+				<li>
+                  都江堰<br /><img class="graphic_img" src="moments/21_jun_2026_6.jpg" alt="Graphic">
+                  <br /><img class="graphic_img" src="moments/21_jun_2026_8.jpg" alt="Graphic" />
+				  <br /><img class="graphic_img" src="moments/21_jun_2026_7.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>20 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  火锅 @ Chunxi Road<br /><img class="graphic_img" src="moments/20_jun_2026_1.jpeg" alt="Graphic">
+                  <br /><img class="graphic_img" src="moments/20_jun_2026_2.jpeg" alt="Graphic" />
+
+                </li>
+                <li>
+                  博物馆<br /><img class="graphic_img" src="moments/20_jun_2026_4.jpg" alt="Graphic"><br /><img
+                    class="graphic_img" src="moments/20_jun_2026_3.jpg" alt="Graphic"><br /><img class="graphic_img"
+                    src="moments/20_jun_2026_5.jpg" alt="Graphic">
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>19 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Wild Coco @ Jewel<br /><img class="graphic_img" src="moments/19_jun_2026_1.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>18 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Ah Chew Dessert @ Bugis<br /><img class="graphic_img" src="moments/18_jun_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Genki Sushi @ Hillion<br /><img class="graphic_img" src="moments/18_jun_2026_2.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>15 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  A Hot Hideout @ Ten Mile Junction<br /><img class="graphic_img" src="moments/15_jun_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>14 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  From ❤️<br /><img class="graphic_img" src="moments/14_jun_2026_1.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  Tak Fatt Hainanese Boneless Chicken Rice @ Bukit Panjang Community Club<br /><img class="graphic_img"
+                    src="moments/26_apr_2026_1.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>13 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  CoCo ICHIBANYA @ Plaza Singapura<br /><img class="graphic_img" src="moments/13_jun_2026_1.jpg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Brewerkz @ East Coast Park<br /><img class="graphic_img" src="moments/13_jun_2026_2.jpg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/13_jun_2026_3.jpg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/13_jun_2026_4.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>12 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Zhang Liang Malatang @ Bugis Junction<br /><img class="graphic_img" src="moments/12_jun_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Dessert Gallery @ Liang Seah St<br /><img class="graphic_img" src="moments/12_jun_2026_2.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/12_jun_2026_3.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>7 <br />JUN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  IMAX Movie: Star Wars: The Mandalorian and Grogu @ Shaw Lido<br /><img class="graphic_img"
+                    src="moments/7_jun_2026_0.jpg" alt="Graphic" />
+                </li>
+                <li>
+                  Congee @ Mui Kee Shaw Centre<br /><img class="graphic_img" src="moments/7_jun_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Dinner with my Fam and ❤️'s Fam @ Xiang Xiang Hunan Hillion<br /><img class="graphic_img"
+                    src="moments/7_jun_2026_2.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>7 <br />MAY<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  ❤️'s Birthday<br /><img class="graphic_img" src="moments/7_may_2026_1.jpg" alt="Graphic" /><br /><img
+                    class="graphic_img" src="moments/7_may_2026_2.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>3 <br />MAY<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Badminton @ Chua Chu Kang Sports Hall<br /><img class="graphic_img" src="moments/3_may_2026_1.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>1 <br />MAY<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Lunch with my Fam and ❤️'s Fam @ Zui Yu Xuan Teochew Cuisine<br /><img class="graphic_img"
+                    src="moments/1_may_2026_1.jpeg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/1_may_2026_2.jpeg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/1_may_2026_3.jpeg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/1_may_2026_4.jpeg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/1_may_2026_5.jpeg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/1_may_2026_6.jpg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/1_may_2026_11.jpg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/1_may_2026_12.jpg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/1_may_2026_13.jpg" alt="Graphic" />
+                </li>
+                <li>
+                  He Xiangning: Ink & Intent @ National Gallery Singapore<br /><img class="graphic_img"
+                    src="moments/1_may_2026_7.jpg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/1_may_2026_8.jpg" alt="Graphic" />
+                </li>
+                <li>
+                  Surrey Hills Grocer @ Raffles City<br /><img class="graphic_img" src="moments/1_may_2026_9.jpg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/1_may_2026_10.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>26 <br />APR<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Tak Fatt Hainanese Boneless Chicken Rice @ Bukit Panjang Community Club<br /><img class="graphic_img"
+                    src="moments/26_apr_2026_1.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  From ❤️<br /><img class="graphic_img" src="moments/26_apr_2026_2.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>18 <br />APR<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  ❤️'s Sis Birthday<br /><img class="graphic_img" src="moments/18_apr_2026_1.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>11 <br />APR<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Nunsaram Korean Dessert Cafe @ Bugis<br /><img class="graphic_img" src="moments/11_apr_2026_1.jpg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Ibu Sarah Kitchen restaurant and Tea House @ Orchard Tower<br /><img class="graphic_img"
+                    src="moments/11_apr_2026_2.jpg" alt="Graphic">
+                </li>
+                <li>
+                  Movie: Hoppers @ SHAW Lido<br /><img class="graphic_img" src="moments/11_apr_2026_3.jpg"
+                    alt="Graphic">
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>4 <br />APR<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Kulnari Mystery Golf<br /><img class="graphic_img" src="moments/4_apr_2026_1.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  MODU Samgyetang Specialty Korean Restaurant @ Mandarin Gallery<br /><img class="graphic_img"
+                    src="moments/4_apr_2026_2.jpeg" alt="Graphic" <br /><img class="graphic_img"
+                    src="moments/4_apr_2026_3.jpg" alt="Graphic" /><img class="graphic_img"
+                    src="moments/4_apr_2026_4.jpg" alt="Graphic" /><img class="graphic_img"
+                    src="moments/4_apr_2026_5.jpg" alt="Graphic" /><img class="graphic_img"
+                    src="moments/4_apr_2026_6.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>29 <br />MAR<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Homemade Chrysanthemum Tea<br /><img class="graphic_img" src="moments/29_mar_2026_0.jpeg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Menya Musashi and osaka ohsho @ Ngee Ann City<br /><img class="graphic_img"
+                    src="moments/29_mar_2026_1.jpeg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/29_mar_2026_2.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  Hvala @ Takashimaya<br /><img class="graphic_img" src="moments/29_mar_2026_4.jpg" alt="Graphic" />
+                </li>
+                <li>
+                  IMAX Movie: Project Hail Mary @ SHAW Lido<br /><img class="graphic_img"
+                    src="moments/29_mar_2026_3.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>28 <br />MAR<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Old School Delights @ Esplanade<br /><img class="graphic_img" src="moments/28_mar_2026_1.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/28_mar_2026_2.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  Simon Trpčeski & Eliahu Inbal / Rachmaninoff and Shostakovich @ Esplanade<br /><img
+                    class="graphic_img" src="moments/28_mar_2026_3.jpg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/28_mar_2026_4.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>5 <br />MAR<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Green Apple Juice + Papaya + PineApple @ SF Fruits Hillion Mall<br /><img class="graphic_img"
+                    src="moments/24_feb_2025_1.png" alt="Graphic" />
+                </li>
+                <li>
+                  Yuzu Cheese Cake + Chocolate Coronets @ Gokoku Japanese Bakery Bukit Panjang Plaza<br /><img
+                    class="graphic_img" src="moments/5_mar_2026_1.png" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>24 <br />FEB<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  From ❤️<br /><img class="graphic_img" src="moments/24_feb_2026_1.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>22 <br />FEB<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  CNY 2026 拜年 with ❤️<br /><img class="graphic_img" src="moments/22_feb_2026_1.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>14 <br />FEB<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Valentine's Day 4 Course Meal @ Monti<br /><img class="graphic_img" src="moments/14_feb_2026_0.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/14_feb_2026_1.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/14_feb_2026_2.jpg" alt="Graphic" />
+                  <br /><img class="graphic_img" src="moments/14_feb_2026_3.jpg" alt="Graphic" />
+                  <br /><img class="graphic_img" src="moments/14_feb_2026_4.jpg" alt="Graphic" /><br /><img
+                    class="graphic_img" src="moments/14_feb_2026_5.jpg" alt="Graphic" />
+                  <br /><img class="graphic_img" src="moments/14_feb_2026_6.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>5 <br />FEB<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  From ❤️<br /><img class="graphic_img" src="moments/5_feb_2026_1.jpeg" alt="Graphic" /><br /><img
+                    class="graphic_img" src="moments/5_feb_2026_2.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>31 <br />JAN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Collected Pottery from PotteryPlease! Pottery Painting Studio @ Queensway Shopping Center<br /><img
+                    class="graphic_img" src="moments/31_jan_2026_1.jpeg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/31_jan_2026_2.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  Congee @ Mui Kee Shaw Centre<br /><img class="graphic_img" src="moments/31_jan_2026_3.jpg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/31_jan_2026_4.jpg" alt="Graphic" />
+                </li>
+                <li>
+                  Pictures at an Exhibition / Bertrand Chamayou & Pierre Bleuse @ Esplanade<br /><img
+                    class="graphic_img" src="moments/31_jan_2026_5.jpg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/31_jan_2026_6.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>24 <br />JAN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  PotteryPlease! Pottery Painting Studio @ Queensway Shopping Center<br /><img class="graphic_img"
+                    src="moments/24_jan_2026_1.jpeg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/24_jan_2026_2.jpeg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/24_jan_2026_3.jpg" alt="Graphic" />
+                </li>
+                <li>
+                  Otoko Ramen @ Alexandra Central<br /><img class="graphic_img" src="moments/24_jan_2026_4.jpg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Carrara @ 2 Jalan Bukit Merah, #01-5148<br /><img class="graphic_img" src="moments/24_jan_2026_5.jpeg"
+                    alt="Graphic" />
+                  <br /><img class="graphic_img" src="moments/24_jan_2026_6.jpg" alt="Graphic" />
+                  <br /><img class="graphic_img" src="moments/24_jan_2026_7.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>18 <br />JAN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Lau Wang Claypot @ Holland Village<br /><img class="graphic_img" src="moments/18_jan_2026_1.jpg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  2am Dessert Bar @ Holland Village<br /><img class="graphic_img" src="moments/18_jan_2026_2.jpg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/18_jan_2026_3.jpg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/18_jan_2026_4.jpg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/18_jan_2026_6.jpg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/18_jan_2026_5.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>10 <br />JAN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  ❤️'s Friend's Solemnisation @ Bethesda Hall<br /><img class="graphic_img"
+                    src="moments/10_jan_2026_1.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  Fish & Co. @ AMK Hub<br /><img class="graphic_img" src="moments/10_jan_2026_2.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  AM:PM CAFE @ 529 AMK Ave 10<br /><img class="graphic_img" src="moments/10_jan_2026_3.jpg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Coffeesmith @ Suntec City<br /><img class="graphic_img" src="moments/10_jan_2026_4.jpg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Din Tai Fung @ Suntec City<br /><img class="graphic_img" src="moments/10_jan_2026_5.jpg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Romance & Fire: Haochen Zhang plays Rach 3 @ Esplanade<br /><img class="graphic_img"
+                    src="moments/10_jan_2026_6.jpeg" alt="Graphic" /><br /><img class="graphic_img"
+                    src="moments/10_jan_2026_7.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>3 <br />JAN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Blanco Court Prawn Mee @ Beach Rd<br /><img class="graphic_img" src="moments/3_jan_2026_1.jpg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  nana's green tea @ DUO Galleria<br /><img class="graphic_img" src="moments/3_jan_2026_2.jpg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Singtel Shop @ Bugis Junction<br /><img class="graphic_img" src="moments/3_jan_2026_5.png"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Books Kinokuniya @ Ngee Ann City<br /><img class="graphic_img" src="moments/3_jan_2026_3.jpg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  A Hot Hideout @ Cineleisure<br /><img class="graphic_img" src="moments/3_jan_2026_4.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>2 <br />JAN<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Holiday Gift from ❤️<br /><img class="graphic_img" src="moments/2_jan_2026_1.jpg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+      <a href="timeline.html" class="left" style="padding-left: 10px"
+        >Previous</a
+      >
+      <a href="timeline-2025-h2.html" class="right" style="padding-right: 10px"
+        >Next</a
+      >
+    </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Create the lightbox overlay
+      const lightbox = document.createElement("div");
+      lightbox.id = "lightbox-overlay";
+      lightbox.innerHTML = "<img>";
+      document.body.appendChild(lightbox);
+
+      const lightboxImg = lightbox.querySelector("img");
+
+      // Attach click listener to all images on the page
+      document.querySelectorAll("img").forEach((img) => {
+        img.style.cursor = "zoom-in"; // Optional, gives a visual cue
+
+        img.addEventListener("click", () => {
+          const fullSrc = img.getAttribute("data-full") || img.src;
+          lightboxImg.src = fullSrc;
+          lightbox.style.display = "flex";
+          document.body.classList.add("lightbox-open");
+        });
+      });
+
+      // Close lightbox on click anywhere
+      lightbox.addEventListener("click", () => {
+        lightbox.style.display = "none";
+        lightboxImg.src = "";
+        document.body.classList.remove("lightbox-open");
+      });
+    });
+  </script>
+</body>
+
+</html>

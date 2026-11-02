@@ -1,0 +1,736 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <title>Reuben & Ivy</title>
+
+  <script>
+    if (sessionStorage.getItem("authenticated") !== "true") {
+      // Redirect to login page if not
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <style>
+    @charset "UTF-8";
+    @import url(https://fonts.googleapis.com/css?family=Fira+Sans:200,400,500);
+
+    * {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      height: inherit;
+      display: flex;
+      flex-direction: column;
+      font-family: "Fira Sans", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: #000000;
+    }
+
+    a {
+      color: #50585f;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #383e44;
+    }
+
+    div.container {
+      display: flex;
+      flex: auto;
+      flex-direction: column;
+      max-height: 100%;
+    }
+
+    div.header {
+      height: auto;
+      text-align: center;
+      background: #000000;
+      color: ghostwhite;
+      padding: 2.3rem 1rem 2.3rem 1rem;
+      position: relative;
+    }
+
+    div.header:after {
+      content: "";
+      position: absolute;
+      bottom: -5rem;
+      left: 0rem;
+      height: 5.1rem;
+      display: block;
+      width: 100%;
+      z-index: 300;
+      background: -moz-linear-gradient(top,
+          white 20%,
+          rgba(255, 255, 255, 0) 100%);
+      /* FF3.6-15 */
+      background: -webkit-linear-gradient(top,
+          white 20%,
+          rgba(255, 255, 255, 0) 100%);
+      /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to bottom,
+          white 20%,
+          rgba(255, 255, 255, 0) 100%);
+      /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#00ffffff", GradientType=0);
+      /* IE6-9 */
+    }
+
+    div.header h1 {
+      margin-top: 0.8rem;
+      margin-bottom: 0.5rem;
+      font-weight: 200;
+      font-size: 1.6em;
+      letter-spacing: 0.1rem;
+      text-transform: uppercase;
+    }
+
+    @media (min-width: 62em) {
+      div.header h1 {
+        font-size: 1.9em;
+        letter-spacing: 0.2rem;
+      }
+    }
+
+    div.header h2 {
+      font-size: 1.1em;
+      font-weight: 400;
+      color: #000000;
+      max-width: 30rem;
+      margin: auto;
+    }
+
+    div.item {
+      display: flex;
+      flex: auto;
+      overflow-y: auto;
+      padding: 0rem 1rem 0rem 1rem;
+    }
+
+    #timeline {
+      position: relative;
+      display: table;
+      height: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 5rem;
+    }
+
+    #timeline div:after {
+      content: "";
+      width: 2px;
+      position: absolute;
+      top: 0.5rem;
+      bottom: 0rem;
+      left: 60px;
+      z-index: 1;
+      background: #000000;
+    }
+
+    #timeline h3 {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 5rem;
+      color: #000000;
+      margin: 0;
+      font-size: 1em;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    @media (min-width: 62em) {
+      #timeline h3 {
+        font-size: 1.1em;
+      }
+    }
+
+    #timeline section.year {
+      position: relative;
+    }
+
+    #timeline section.year:first-child section {
+      margin-top: -1.3em;
+      padding-bottom: 0px;
+    }
+
+    #timeline section.year section {
+      position: relative;
+      padding-bottom: 1.25em;
+      margin-bottom: 2.2em;
+    }
+
+    #timeline section.year section h4 {
+      position: absolute;
+      bottom: 0;
+      font-size: 0.9em;
+      font-weight: 400;
+      line-height: 1.2em;
+      margin: 0;
+      padding: 0 0 0 89px;
+      color: #000000;
+    }
+
+    @media (min-width: 62em) {
+      #timeline section.year section h4 {
+        font-size: 1em;
+      }
+    }
+
+    #timeline section.year section ul {
+      list-style-type: none;
+      padding: 0 0 0 75px;
+      margin: -1.35rem 0 1em;
+      max-width: 32rem;
+      font-size: 1em;
+    }
+
+    @media (min-width: 62em) {
+      #timeline section.year section ul {
+        font-size: 1.1em;
+        padding: 0 0 0 81px;
+      }
+    }
+
+    #timeline section.year section ul:last-child {
+      margin-bottom: 0;
+    }
+
+    #timeline section.year section ul:first-of-type:after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background: #000000;
+      border: 2px solid #ffffff;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      border-radius: 50%;
+      position: absolute;
+      left: 54px;
+      top: 3px;
+      z-index: 2;
+    }
+
+    #timeline section.year section ul li {
+      margin-left: 0.5rem;
+    }
+
+    #timeline section.year section ul li:before {
+      content: "·";
+      margin-left: -0.5rem;
+      padding-right: 0.3rem;
+    }
+
+    #timeline section.year section ul li:not(:first-child) {
+      margin-top: 0.5rem;
+    }
+
+    #timeline section.year section ul li span.price {
+      color: mediumturquoise;
+      font-weight: 500;
+    }
+
+    .usd {
+      display: inline;
+    }
+
+    svg {
+      border: 3px solid white;
+      border-radius: 50%;
+      box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
+        0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .graphic_img {
+      max-width: 300px;
+      border: 1px solid #000000;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    body {
+      background: #ffcc00;
+      font-family: "Comic Neue", serif;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    #lightbox-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #lightbox-overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    #lightbox-overlay:hover img {
+      transform: scale(1.02);
+    }
+
+    body.lightbox-open {
+      overflow: hidden;
+    }
+  </style>
+
+  <style>
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      /* very transparent */
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: space-between;
+      /* left, center, right */
+      align-items: center;
+      padding: 10px;
+      z-index: 10000;
+      font-weight: bold;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .bottom-nav a {
+      color: white;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+      text-decoration: none;
+    }
+
+    .bottom-nav a:hover {
+      opacity: 1;
+    }
+
+    .bottom-nav .center {
+      cursor: pointer;
+    }
+  </style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+  <script>
+    window.console = window.console || function (t) { };
+  </script>
+</head>
+
+<body translate="no">
+  <div class="container">
+    <div class="item">
+      <div id="timeline">
+        <div>
+		<section class="year">
+            <h3>17 <br />OCT<br />2026</h3>
+            <section>
+              <ul>
+               <li>
+                Din Tai Fung @ Suntec City<br /><img class="graphic_img" src="moments/17_oct_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>16 <br />OCT<br />2026</h3>
+            <section>
+              <ul>
+               <li>
+                 Jinjja Kitchen @ Bukit Panjang Plaza<br /><img class="graphic_img" src="moments/16_oct_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>13 <br />OCT<br />2026</h3>
+            <section>
+              <ul>
+               <li>
+                 Genki Sushi @ Hillion Mall<br /><img class="graphic_img" src="moments/13_oct_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>20 <br />SEP<br />2026</h3>
+            <section>
+              <ul>
+               <li>
+                  Movie: Chiikawa the Movie: The Secret of the Mermaid Island @ GV Cineleisure<br /><img class="graphic_img" src="moments/20_sep_2026_0.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+			  <ul>
+               <li>
+                   Surrey Hills Grocer - ION Orchard<br /><img class="graphic_img" src="moments/20_sep_2026_1.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/20_sep_2026_2.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/20_sep_2026_4.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+			 <ul>
+               <li>
+                   Ice Lab @ Bugis Street<br /><img class="graphic_img" src="moments/20_sep_2026_3.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>19 <br />SEP<br />2026</h3>
+            <section>
+              <ul>
+               <li>
+                  Kopitiam @ Northpoint<br /><img class="graphic_img" src="moments/19_sep_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>14 <br />SEP<br />2026</h3>
+            <section>
+              <ul>
+               <li>
+                  Gift from ❤️<br /><img class="graphic_img" src="moments/14_sep_2026_1.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>11 <br />SEP<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                 A Hot Hideout @ Ten Mile Junction<br /><img class="graphic_img" src="moments/11_sep_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul><ul>
+                <li>
+                  Gift from ❤️<br /><img class="graphic_img" src="moments/11_sep_2026_2.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>5 <br />SEP<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                 onggii @ Suntec City<br /><img class="graphic_img" src="moments/5_sep_2026_1.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/5_sep_2026_2.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul><ul>
+                <li>
+                  Cafe USAGI Tokyo @ Suntec City<br /><img class="graphic_img" src="moments/5_sep_2026_3.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+			  <ul>
+                <li>
+                  Movie: Dear You @ Suntec City<br /><img class="graphic_img" src="moments/5_sep_2026_4.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>3 <br />SEP<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                 Yew Kee Duck Rice @ Hillion Mall<br /><img class="graphic_img" src="moments/3_sep_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul><ul>
+                <li>
+                  Ji De Chi @ Hillion Hall<br /><img class="graphic_img" src="moments/3_sep_2026_2.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>29 <br />AUG<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Hoshino Coffee @ Suntec City<br /><img class="graphic_img" src="moments/29_aug_2026_1.jpeg"
+                    alt="Graphic" />
+					<br /><img class="graphic_img" src="moments/29_aug_2026_2.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul><ul>
+                <li>
+                  Roman Borisov Piano Recital Singapore 2026 @ Victoria Concert Hall<br /><img class="graphic_img" src="moments/29_aug_2026_3.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>22 <br />AUG<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Disney Garden of Wonder at Floral Fantasy @ Gardens By The Bay<br /><img class="graphic_img" src="moments/22_aug_2026_1.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+			  <ul>
+                <li>
+                  Flower Dome @ Gardens By The Bay<br /><img class="graphic_img" src="moments/22_aug_2026_2.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+			  <ul>
+                <li>
+                  Tonshou @ Suntec City<br /><img class="graphic_img" src="moments/22_aug_2026_3.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+			  <ul>
+                <li>
+                  Live Jazz Night @ The Lobby Lounge, Frasers House<br /><img class="graphic_img" src="moments/22_aug_2026_4.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>10 <br />AUG<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Dinner @ Timbre+ Hillview<br /><img class="graphic_img" src="moments/10_aug_2026_1.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		  <section class="year">
+            <h3>8 <br />AUG<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Hakku Yu @ Vivo City<br /><img class="graphic_img" src="moments/8_aug_2026_1.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>5 <br />AUG<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Tonkotsu Kazan @ Bukit Panjang Plaza<br /><img class="graphic_img" src="moments/5_aug_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+		<section class="year">
+            <h3>1 <br />AUG<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Movie: Spiderman Brand New Day @ JEM<br /><img class="graphic_img" src="moments/1_aug_2026_1.jpg"
+                    alt="Graphic" />
+                </li>
+				<li>
+                  Hakku Yu @ JEM<br /><img class="graphic_img" src="moments/1_aug_2026_2.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/1_aug_2026_3.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>25 <br />JUL<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Dinner with ❤️ and her fam and my fam<br /><img class="graphic_img" src="moments/25_jul_2026_1.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>19 <br />JUL<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  IMAX Movie: The Odyssey @ JEM<br /><img class="graphic_img" src="moments/19_jul_2026_2.jpg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Warm Up Cafe @ The Star Vista<br /><img class="graphic_img" src="moments/19_jul_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>18 <br />JUL<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Dinner with ❤️ and her fam<br /><img class="graphic_img" src="moments/18_jul_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>11 <br />JUL<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Birthday Gift from ❤️<br /><img class="graphic_img" src="moments/11_jul_2026_1.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  Clap Cafe<br /><img class="graphic_img" src="moments/11_jul_2026_2.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  Mr. Stork @ Andaz<br /><img class="graphic_img" src="moments/11_jul_2026_3.jpg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/11_jul_2026_5.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/11_jul_2026_6.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/11_jul_2026_7.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/11_jul_2026_8.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  Little Island Brewing Co @ South Beach<br /><img class="graphic_img" src="moments/11_jul_2026_4.jpg"
+                    alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>5 <br />JUL<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  ❤️ Breakfast<br /><img class="graphic_img" src="moments/5_jul_2026_1.jpeg" alt="Graphic" />
+                </li>
+                <li>
+                  Hillion Kopitiam Dinner<br /><img class="graphic_img" src="moments/5_jul_2026_2.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>4 <br />JUL<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  KFC Dinner<br /><img class="graphic_img" src="moments/4_jul_2026_1.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>2 <br />JUL<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  Early Birthday Gift from ❤️<br /><img class="graphic_img" src="moments/2_jul_2026_1.jpeg"
+                    alt="Graphic" />
+                </li>
+                <li>
+                  Dinner from 思家客 Jurong Point️<br /><img class="graphic_img" src="moments/2_jul_2026_2.jpeg"
+                    alt="Graphic" />
+                </li>
+
+              </ul>
+            </section>
+          </section>
+          <section class="year">
+            <h3>1 <br />JUL<br />2026</h3>
+            <section>
+              <ul>
+                <li>
+                  JINJJA Chicken @ Westgate<br /><img class="graphic_img" src="moments/1_jul_2026_1.jpeg"
+                    alt="Graphic" /><br /><img class="graphic_img" src="moments/1_jul_2026_2.jpeg" alt="Graphic" />
+                </li>
+              </ul>
+            </section>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="#" class="left" style="padding-left: 10px"></a>
+    <a href="timeline-2026-h1.html" class="right" style="padding-right: 10px">Next</a>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Create the lightbox overlay
+      const lightbox = document.createElement("div");
+      lightbox.id = "lightbox-overlay";
+      lightbox.innerHTML = "<img>";
+      document.body.appendChild(lightbox);
+
+      const lightboxImg = lightbox.querySelector("img");
+
+      // Attach click listener to all images on the page
+      document.querySelectorAll("img").forEach((img) => {
+        img.style.cursor = "zoom-in"; // Optional, gives a visual cue
+
+        img.addEventListener("click", () => {
+          const fullSrc = img.getAttribute("data-full") || img.src;
+          lightboxImg.src = fullSrc;
+          lightbox.style.display = "flex";
+          document.body.classList.add("lightbox-open");
+        });
+      });
+
+      // Close lightbox on click anywhere
+      lightbox.addEventListener("click", () => {
+        lightbox.style.display = "none";
+        lightboxImg.src = "";
+        document.body.classList.remove("lightbox-open");
+      });
+    });
+  </script>
+</body>
+
+</html>
